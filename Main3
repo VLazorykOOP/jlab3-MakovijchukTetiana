@@ -1,0 +1,121 @@
+import java.util.*;
+
+interface Container {
+    void sort();
+    double norma();
+}
+
+class Bubble implements Container {
+    private double[] elements;
+
+    public Bubble(double[] elements) {
+        this.elements = elements;
+    }
+
+    @Override
+    public void sort() {
+        for (int i = 0; i < elements.length - 1; i++) {
+            for (int j = 0; j < elements.length - i - 1; j++) {
+                if (elements[j] > elements[j + 1]) {
+                    double temp = elements[j];
+                    elements[j] = elements[j + 1];
+                    elements[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    @Override
+    public double norma() {
+        double sum = 0;
+        for (double el : elements) {
+            sum += el;
+        }
+        return Math.sqrt(sum);
+    }
+
+    @Override
+    public String toString() {
+        return "Bubble: " + Arrays.toString(elements);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Bubble)) return false;
+        Bubble b = (Bubble) obj;
+        return Arrays.equals(this.elements, b.elements);
+    }
+}
+
+class Choice implements Container {
+    private double[] elements;
+
+    public Choice(double[] elements) {
+        this.elements = elements;
+    }
+
+    @Override
+    public void sort() {
+        for (int i = 0; i < elements.length - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < elements.length; j++) {
+                if (elements[j] > elements[maxIndex]) {
+                    maxIndex = j;
+                }
+            }
+            double temp = elements[i];
+            elements[i] = elements[maxIndex];
+            elements[maxIndex] = temp;
+        }
+    }
+
+    @Override
+    public double norma() {
+        double sum = 0;
+        for (double el : elements) {
+            sum += el;
+        }
+        return sum / elements.length;
+    }
+
+    @Override
+    public String toString() {
+        return "Choice: " + Arrays.toString(elements);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Choice)) return false;
+        Choice c = (Choice) obj;
+        return Arrays.equals(this.elements, c.elements);
+    }
+}
+
+public class Main3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Введіть кількість елементів: ");
+        int n = sc.nextInt();
+
+        double[] arr = new double[n];
+        System.out.println("Введіть елементи:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextDouble();
+        }
+
+        Container[] containers = new Container[2];
+        containers[0] = new Bubble(Arrays.copyOf(arr, n));
+        containers[1] = new Choice(Arrays.copyOf(arr, n));
+
+        for (Container c : containers) {
+            System.out.println("\nДо сортування: " + c);
+            c.sort();
+            System.out.println("Після сортування: " + c);
+            System.out.println("Norma = " + c.norma());
+        }
+
+    
+    }
+}
