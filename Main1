@@ -1,0 +1,97 @@
+import java.util.*;
+
+// Базовий клас
+class Test {
+    protected String subject;
+    protected String date;
+
+    public Test(String subject, String date) {
+        this.subject = subject;
+        this.date = date;
+    }
+
+    public void Show() {
+        System.out.println("Предмет: " + subject);
+        System.out.println("Дата: " + date);
+    }
+}
+
+// Підклас 1 — Іспит
+class Exam extends Test {
+    protected String examiner;
+    protected int maxPoints;
+
+    public Exam(String subject, String date, String examiner, int maxPoints) {
+        super(subject, date);
+        this.examiner = examiner;
+        this.maxPoints = maxPoints;
+    }
+
+    @Override
+    public void Show() {
+        System.out.println(" Іспит ");
+        super.Show();
+        System.out.println("Екзаменатор: " + examiner);
+        System.out.println("Максимальна кількість балів: " + maxPoints);
+    }
+}
+
+// Підклас 2 — Випускний іспит
+class FinalExam extends Exam {
+    private String commissionChair;
+    private String diplomaTopic;
+
+    public FinalExam(String subject, String date, String examiner, int maxPoints, String commissionChair, String diplomaTopic) {
+        super(subject, date, examiner, maxPoints);
+        this.commissionChair = commissionChair;
+        this.diplomaTopic = diplomaTopic;
+    }
+
+    @Override
+    public void Show() {
+        System.out.println(" Випускний іспит ");
+        super.Show();
+        System.out.println("Голова комісії: " + commissionChair);
+        System.out.println("Тема дипломної роботи: " + diplomaTopic);
+    }
+}
+
+// Підклас 3 — Випробування
+class Trial extends Test {
+    private String type;
+    private boolean passed;
+
+    public Trial(String subject, String date, String type, boolean passed) {
+        super(subject, date);
+        this.type = type;
+        this.passed = passed;
+    }
+
+    @Override
+    public void Show() {
+        System.out.println(" Випробування ");
+        super.Show();
+        System.out.println("Тип випробування: " + type);
+        System.out.println("Результат: " + (passed ? "Пройдено" : "Не пройдено"));
+    }
+}
+
+// Головний клас
+public class Main1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Test[] tests = new Test[3];
+        tests[0] = new Exam("Математика", "12.06.2025", "Проф. Іваненко", 100);
+        tests[1] = new FinalExam("Програмування", "25.06.2025", "Проф. Петренко", 100, "Доц. Гнатюк", "Розробка бази даних");
+        tests[2] = new Trial("Фізична культура", "05.06.2025", "Практичне випробування", true);
+
+        System.out.println("\n Інформація про тести та іспити ");
+        for (Test t : tests) {
+            t.Show();
+            System.out.println();
+        }
+
+        sc.close();
+    }
+}
